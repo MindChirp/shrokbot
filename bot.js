@@ -50,6 +50,34 @@ setInterval(()=>{
 
 	console.log(days, hours, minutes, seconds);
 
+    var randomHour;
+    var randomMinute;
+
+    if(hours == 1 && minutes == 60 && seconds == 0){
+        randomHour = Math.floor((Math.random() * 24));
+        randomMinute = Math.floor((Math.random() * 59));
+    }
+
+    if(hours == randomHour && minutes == randomMinute){
+
+        console.log(randomHour, randomMinute);
+        var voiceChannel = client.channels.cache.get("263300337320853506");
+        if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
+        voiceChannel.join().then(connection => {
+            const dispatcher = connection.play(rick.mp3, {
+                volume: 1,
+            })
+            
+            dispatcher.on('finish', end => {
+                
+                connection.disconnect();
+                dispatcher.destroy();
+            });
+        }).catch(err => console.log(err))
+
+
+    }
+
     var x;
     for(x of timestamps) {
         (()=>{
@@ -134,4 +162,6 @@ client.on("message", async message => {
             
 
 })
+
+
 
