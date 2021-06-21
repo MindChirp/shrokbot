@@ -50,9 +50,6 @@ setInterval(()=>{
 
 	console.log(days, hours, minutes, seconds);
 
-
-	//Days starts counting from Sunday, therefor y.days != 0
-
     var x;
     for(x of timestamps) {
         (()=>{
@@ -103,6 +100,21 @@ client.on("message", async message => {
         }
 
 
+        if(message.content == "#rick") {
+            var voiceChannel = message.member.voice.channel;
+            voiceChannel.join().then(connection => {
+              const dispatcher = connection.play('rick.mp3', {
+                  volume: 1,
+              })
+    
+              dispatcher.on('finish', end => {
+                
+                  connection.disconnect();
+                  dispatcher.destroy();
+                });
+            }).catch(err => console.log(err))
+        }
+
 
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -122,6 +134,4 @@ client.on("message", async message => {
             
 
 })
-
-
 
