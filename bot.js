@@ -8,6 +8,17 @@ client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 
+//Fetch timestamps on program start
+var timestamps;
+fs.readFile("./timestamps.json", (err, data) => {
+    if(err) throw err;
+
+    var dat = JSON.parse(data);
+    timestamps = dat.timestamps;
+}) 
+
+
+
 //const time = getHours();
 
 
@@ -30,60 +41,31 @@ client.login(token);
 
 
 setInterval(()=>{
-        var d = new Date();
-        var hours = d.getHours();
-        var minutes = d.getMinutes();
-		var seconds = d.getSeconds();
-		
-		console.log(hours, minutes, seconds);
+    //Read through the timestamp array, check if there is a matching time
+    var d = new Date();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+	var seconds = d.getSeconds();
 
-        if(hours == 13 && minutes == 37 && seconds == 0) {
+    var x;
+    for(x of timestamps) {
+
+        if(hours == x.hours && minutes == x.minutes && seconds == 0) {
             var voiceChannel = client.channels.cache.get("263300337320853506");
             if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
             voiceChannel.join().then(connection => {
-            const dispatcher = connection.play('hellothere.mp3', {
-                volume: 1,
-            })
-
-            dispatcher.on('finish', end => {
+                const dispatcher = connection.play(x.file, {
+                    volume: 1,
+                })
                 
-                connection.disconnect();
-                dispatcher.destroy();
+                dispatcher.on('finish', end => {
+                    
+                    connection.disconnect();
+                    dispatcher.destroy();
                 });
             }).catch(err => console.log(err))
-        }else 
-
-                        if(hours == 4 && minutes == 20 && seconds == 0) {
-                            var voiceChannel = client.channels.cache.get("263300337320853506");
-                            if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
-                            voiceChannel.join().then(connection => {
-                            const dispatcher = connection.play('donkey.mp3', {
-                                volume: 1,
-                            })
-                    
-                            dispatcher.on('finish', end => {
-                                
-                                connection.disconnect();
-                                dispatcher.destroy();
-                                });
-                            }).catch(err => console.log(err))
-                        }else 
-
-                        if(hours == 12 && minutes == 00 && seconds == 0) {
-                            var voiceChannel = client.channels.cache.get("263300337320853506");
-                            if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
-                            voiceChannel.join().then(connection => {
-                            const dispatcher = connection.play('clockstrike.mp3', {
-                                volume: 1,
-                            })
-                    
-                            dispatcher.on('finish', end => {
-                                
-                                connection.disconnect();
-                                dispatcher.destroy();
-                                });
-                            }).catch(err => console.log(err))
-                        }
+        }
+    }
 }, 1000)
 
 
