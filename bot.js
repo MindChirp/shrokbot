@@ -46,12 +46,15 @@ setInterval(()=>{
     var hours = d.getHours();
     var minutes = d.getMinutes();
 	var seconds = d.getSeconds();
+	var days = d.getDay();
+
+	console.log(days, hours, minutes, seconds);
 
     var x;
     for(x of timestamps) {
         (()=>{
             var y = x;
-            if(hours == y.hours && minutes == y.minutes && seconds == 50) {
+            if(hours == y.hours && minutes == y.minutes && seconds == 00 && y.days != 6) {
                 console.log(y);
                 var voiceChannel = client.channels.cache.get("263300337320853506");
                 if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
