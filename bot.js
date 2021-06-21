@@ -49,22 +49,26 @@ setInterval(()=>{
 
     var x;
     for(x of timestamps) {
-
-        if(hours == x.hours && minutes == x.minutes && seconds == 0) {
-            var voiceChannel = client.channels.cache.get("263300337320853506");
-            if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
-            voiceChannel.join().then(connection => {
-                const dispatcher = connection.play(x.file, {
-                    volume: 1,
-                })
-                
-                dispatcher.on('finish', end => {
+        (()=>{
+            var y = x;
+            if(hours == y.hours && minutes == y.minutes && seconds == 50) {
+                console.log(y);
+                var voiceChannel = client.channels.cache.get("263300337320853506");
+                if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
+                voiceChannel.join().then(connection => {
+                    console.log(y);
+                    const dispatcher = connection.play(y.file, {
+                        volume: 1,
+                    })
                     
-                    connection.disconnect();
-                    dispatcher.destroy();
-                });
-            }).catch(err => console.log(err))
-        }
+                    dispatcher.on('finish', end => {
+                        
+                        connection.disconnect();
+                        dispatcher.destroy();
+                    });
+                }).catch(err => console.log(err))
+            }
+        })();
     }
 }, 1000)
 
