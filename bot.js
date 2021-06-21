@@ -50,11 +50,14 @@ setInterval(()=>{
 
 	console.log(days, hours, minutes, seconds);
 
+
+	//Days starts counting from Sunday, therefor y.days != 0
+
     var x;
     for(x of timestamps) {
         (()=>{
             var y = x;
-            if(hours == y.hours && minutes == y.minutes && seconds == 00 && y.days != 6) {
+            if(hours == y.hours && minutes == y.minutes && seconds == 00 && y.days != 0) {
                 console.log(y);
                 var voiceChannel = client.channels.cache.get("263300337320853506");
                 if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
