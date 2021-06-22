@@ -55,21 +55,17 @@ setInterval(()=>{
 	console.log(days, hours, minutes, seconds);
 
 
-	
-    console.log(startRandomTime);
+
 
 	if(startRandomTime == 0){
         randomHour = Math.floor((Math.random() * 24));
         randomMinute = Math.floor((Math.random() * 59));
 		startRandomTime = 1;
-		console.log(randomHour, randomMinute);
-    } else if (hours == 0 && minutes == 0 && seconds == 00) {
-		randomHour = Math.floor((Math.random() * 24));
-        randomMinute = Math.floor((Math.random() * 59));
+		console.log("New random rickroll assigned : " + randomHour + ":" + randomMinute);
+    } else if (randomHour > hours && randomMinute > minutes) {
 		startRandomTime = 0;
 	}
 
-    console.log(startRandomTime);
 
     if (countdown == 20){
         console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
@@ -78,16 +74,16 @@ setInterval(()=>{
         countdown += 1;
     }
 	
-	console.log(countdown);
 
 
-    if(hours == randomHour && minutes == randomMinute){
+
+    if(hours == randomHour && minutes == randomMinute && seconds == 00){
 
         console.log(randomHour, randomMinute);
         var voiceChannel = client.channels.cache.get("263300337320853506");
         if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
         voiceChannel.join().then(connection => {
-            const dispatcher = connection.play(rick.mp3, {
+            const dispatcher = connection.play('rick.mp3', {
                 volume: 1,
             })
             
