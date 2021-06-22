@@ -52,23 +52,53 @@ setInterval(()=>{
 	var seconds = d.getSeconds();
 	var days = d.getDay();
 
-	console.log(days, hours, minutes, seconds);
+		if(hours < 10 && minutes < 10 && seconds < 10){
+			console.log(days + " 0" + hours + " 0" + minutes + " 0" + seconds);
+		}else if(hours < 10 && minutes < 10){
+			console.log(days + " 0" + hours + "0" + minutes + seconds);
+		}else if(hours < 10){
+			console.log(days + " 0" + hours, minutes, seconds);
+		}else if(minutes < 10){
+			console.log(days, hours + " 0" + minutes, seconds);
+		}else if(seconds < 10){
+			console.log(days, hours, minutes + " 0" + seconds);
+		}else{
+			console.log(days, hours, minutes, seconds);
+		}
+
 
 
 
 
 	if(startRandomTime == 0){
-        randomHour = Math.floor((Math.random() * 24));
+        randomHour = Math.floor((Math.random() * 8) + 16);
         randomMinute = Math.floor((Math.random() * 59));
 		startRandomTime = 1;
-		console.log("New random rickroll assigned : " + randomHour + ":" + randomMinute);
-    } else if (randomHour > hours && randomMinute > minutes) {
+		
+		if(randomHour < 10 && randomMinute < 10){
+			console.log("New random rickroll assigned : " + "0" + randomHour + ":" + "0" + randomMinute);
+		}else if(randomHour < 10){
+			console.log("New random rickroll assigned : " + "0" + randomHour + ":" + randomMinute);
+		}else if(randomMinute < 10){
+			console.log("New random rickroll assigned : " + randomHour + ":" + "0" + randomMinute);
+		}else{
+			console.log("New random rickroll assigned : " + randomHour + ":" + randomMinute);
+		}
+    } else if (hours == 0 && minutes == 0 && seconds == 00) {
 		startRandomTime = 0;
 	}
 
 
     if (countdown == 20){
-        console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
+		if(randomHour < 10 && randomMinute < 10){
+        console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + "0" + randomMinute);
+		}else if(randomHour < 10){
+			console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + randomMinute);
+		}else if(randomMinute < 10){
+			console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + "0" + randomMinute);
+		}else{
+			console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
+		}
 		countdown = 0;
     }else{
         countdown += 1;
@@ -137,6 +167,8 @@ client.on("message", async message => {
               const dispatcher = connection.play('donkey.mp3', {
                   volume: 1,
               })
+			  
+			  console.log(message.member.user.username + " triggered donkey");
     
               dispatcher.on('finish', end => {
                 
@@ -154,6 +186,8 @@ client.on("message", async message => {
                   volume: 1,
               })
     
+				console.log(message.member.user.username + " triggered rickroll");
+	
               dispatcher.on('finish', end => {
                 
                   connection.disconnect();
