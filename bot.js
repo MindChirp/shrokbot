@@ -40,8 +40,9 @@ client.login(token);
 
 
 var startRandomTime = 0;
-var countdown;
-
+var countdown = 0;
+var randomHour;
+var randomMinute;
 
 setInterval(()=>{
     //Read through the timestamp array, check if there is a matching time
@@ -53,8 +54,7 @@ setInterval(()=>{
 
 	console.log(days, hours, minutes, seconds);
 
-    var randomHour;
-    var randomMinute;
+
 	
     console.log(startRandomTime);
 
@@ -62,6 +62,7 @@ setInterval(()=>{
         randomHour = Math.floor((Math.random() * 24));
         randomMinute = Math.floor((Math.random() * 59));
 		startRandomTime = 1;
+		console.log(randomHour, randomMinute);
     } else if (hours == 0 && minutes == 0 && seconds == 00) {
 		randomHour = Math.floor((Math.random() * 24));
         randomMinute = Math.floor((Math.random() * 59));
@@ -71,11 +72,13 @@ setInterval(()=>{
     console.log(startRandomTime);
 
     if (countdown == 20){
-        console.log("The random rickroll is going to be executed at this timestamp:", randomHour, randomMinute)
+        console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
+		countdown = 0;
     }else{
         countdown += 1;
     }
-
+	
+	console.log(countdown);
 
 
     if(hours == randomHour && minutes == randomMinute){
@@ -182,4 +185,3 @@ client.on("message", async message => {
             
 
 })
-
