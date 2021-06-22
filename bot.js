@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const fs = require("fs");
 const { get } = require("http");
+const { start } = require("repl");
 const {prefix, token} = require('./config.json');
 client.commands = new Discord.Collection();
 
@@ -19,7 +20,7 @@ fs.readFile("./timestamps.json", (err, data) => {
 
 
 
-//const time = getHours();
+
 
 
 
@@ -38,6 +39,8 @@ client.once("ready", () => {
 client.login(token);
 
 
+var startRandomTime = 0;
+var countdown;
 
 
 setInterval(()=>{
@@ -52,11 +55,28 @@ setInterval(()=>{
 
     var randomHour;
     var randomMinute;
+	
+    console.log(startRandomTime);
 
-    if(hours == 1 && minutes == 60 && seconds == 0){
+	if(startRandomTime == 0){
         randomHour = Math.floor((Math.random() * 24));
         randomMinute = Math.floor((Math.random() * 59));
+		startRandomTime = 1;
+    } else if (hours == 0 && minutes == 0 && seconds == 00) {
+		randomHour = Math.floor((Math.random() * 24));
+        randomMinute = Math.floor((Math.random() * 59));
+		startRandomTime = 0;
+	}
+
+    console.log(startRandomTime);
+
+    if (countdown == 20){
+        console.log("The random rickroll is going to be executed at this timestamp:", randomHour, randomMinute)
+    }else{
+        countdown += 1;
     }
+
+
 
     if(hours == randomHour && minutes == randomMinute){
 
@@ -162,6 +182,4 @@ client.on("message", async message => {
             
 
 })
-
-
 
