@@ -53,17 +53,21 @@ setInterval(()=>{
 	var days = d.getDay();
 
 		if(hours < 10 && minutes < 10 && seconds < 10){
-			console.log(days + " 0" + hours + " 0" + minutes + " 0" + seconds);
+			console.log(days + " 0" + hours + ":" + "0" + minutes + ":" + "0" + seconds);
 		}else if(hours < 10 && minutes < 10){
-			console.log(days + " 0" + hours + "0" + minutes + seconds);
+			console.log(days + " 0" + hours + ":" + "0" + minutes + ":" +seconds);
+		}else if(hours < 10 && seconds < 10){
+			console.log(days + " 0" + hours + ":" + minutes + ":" + "0" + seconds);
+		}else if(minutes < 10 && seconds < 10){
+			console.log(days + hours + ":" + "0" + minutes + ":" + "0" + seconds);
 		}else if(hours < 10){
-			console.log(days + " 0" + hours, minutes, seconds);
+			console.log(days + " 0" + hours + ":" + minutes + ":" + seconds);
 		}else if(minutes < 10){
-			console.log(days, hours + " 0" + minutes, seconds);
+			console.log(days + " " + hours + ":" + "0" + minutes + ":" + seconds);
 		}else if(seconds < 10){
-			console.log(days, hours, minutes + " 0" + seconds);
+			console.log(days + " " + hours + ":" + minutes + ":" + "0" + seconds);
 		}else{
-			console.log(days, hours, minutes, seconds);
+			console.log(days + " " + hours + ":" + minutes + ":" + seconds);
 		}
 
 
