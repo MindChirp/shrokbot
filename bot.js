@@ -43,6 +43,7 @@ var startRandomTime = 0;
 var countdown = 0;
 var randomHour;
 var randomMinute;
+var randomRickHour = 0;
 
 setInterval(()=>{
     //Read through the timestamp array, check if there is a matching time
@@ -52,24 +53,28 @@ setInterval(()=>{
 	var seconds = d.getSeconds();
 	var days = d.getDay();
 
-		if(hours < 10 && minutes < 10 && seconds < 10){
-			console.log(days + " 0" + hours + ":" + "0" + minutes + ":" + "0" + seconds);
-		}else if(hours < 10 && minutes < 10){
-			console.log(days + " 0" + hours + ":" + "0" + minutes + ":" +seconds);
-		}else if(hours < 10 && seconds < 10){
-			console.log(days + " 0" + hours + ":" + minutes + ":" + "0" + seconds);
-		}else if(minutes < 10 && seconds < 10){
-			console.log(days + hours + ":" + "0" + minutes + ":" + "0" + seconds);
-		}else if(hours < 10){
-			console.log(days + " 0" + hours + ":" + minutes + ":" + seconds);
-		}else if(minutes < 10){
-			console.log(days + " " + hours + ":" + "0" + minutes + ":" + seconds);
-		}else if(seconds < 10){
-			console.log(days + " " + hours + ":" + minutes + ":" + "0" + seconds);
-		}else{
-			console.log(days + " " + hours + ":" + minutes + ":" + seconds);
-		}
+	
 
+	if(countdown == 5 || countdown == 10 || countdown == 15 || countdown == 20 ){
+
+			if(hours < 10 && minutes < 10 && seconds < 10){
+				console.log(days + " 0" + hours + ":" + "0" + minutes + ":" + "0" + seconds);
+			}else if(hours < 10 && minutes < 10){
+				console.log(days + " 0" + hours + ":" + "0" + minutes + ":" +seconds);
+			}else if(hours < 10 && seconds < 10){
+				console.log(days + " 0" + hours + ":" + minutes + ":" + "0" + seconds);
+			}else if(minutes < 10 && seconds < 10){
+				console.log(days, hours + ":" + "0" + minutes + ":" + "0" + seconds);
+			}else if(hours < 10){
+				console.log(days + " 0" + hours + ":" + minutes + ":" + seconds);
+			}else if(minutes < 10){
+				console.log(days + " " + hours + ":" + "0" + minutes + ":" + seconds);
+			}else if(seconds < 10){
+				console.log(days + " " + hours + ":" + minutes + ":" + "0" + seconds);
+			}else{
+				console.log(days + " " + hours + ":" + minutes + ":" + seconds);
+			}
+	}
 
 
 
@@ -78,8 +83,9 @@ setInterval(()=>{
         randomHour = Math.floor((Math.random() * 8) + 16);
         randomMinute = Math.floor((Math.random() * 59));
 		startRandomTime = 1;
-		
-		if(randomHour < 10 && randomMinute < 10){
+		if(randomRickHour == 1){
+			console.log("The random rick hour has passed, it was : " + randomHour + ":" + randomMinute);
+		}else if(randomHour < 10 && randomMinute < 10){
 			console.log("New random rickroll assigned : " + "0" + randomHour + ":" + "0" + randomMinute);
 		}else if(randomHour < 10){
 			console.log("New random rickroll assigned : " + "0" + randomHour + ":" + randomMinute);
@@ -90,19 +96,22 @@ setInterval(()=>{
 		}
     } else if (hours == 0 && minutes == 0 && seconds == 00) {
 		startRandomTime = 0;
+		randomRickHour = 0;
 	}
 
 
     if (countdown == 20){
-		if(randomHour < 10 && randomMinute < 10){
-        console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + "0" + randomMinute);
-		}else if(randomHour < 10){
-			console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + randomMinute);
-		}else if(randomMinute < 10){
-			console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + "0" + randomMinute);
-		}else{
-			console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
-		}
+		if(randomRickHour == 1){
+			console.log("The random rick hour has passed, it was : " + randomHour + ":" + randomMinute);
+		}else if(randomHour < 10 && randomMinute < 10){
+				console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + "0" + randomMinute);
+			}else if(randomHour < 10){
+				console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + randomMinute);
+			}else if(randomMinute < 10){
+				console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + "0" + randomMinute);
+			}else{
+				console.log("The random rickroll is going to be executed at this timestamp: " + randomHour + ":" + randomMinute);
+			}
 		countdown = 0;
     }else{
         countdown += 1;
@@ -113,6 +122,7 @@ setInterval(()=>{
 
     if(hours == randomHour && minutes == randomMinute && seconds == 00){
 
+		randomRickHour = 1;
         console.log(randomHour, randomMinute);
         var voiceChannel = client.channels.cache.get("263300337320853506");
         if (!voiceChannel) return console.error("The channel does not exist! Check ID of channel");
@@ -121,6 +131,8 @@ setInterval(()=>{
                 volume: 1,
             })
             
+
+			
             dispatcher.on('finish', end => {
                 
                 connection.disconnect();
