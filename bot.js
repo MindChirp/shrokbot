@@ -5,6 +5,31 @@ const { get } = require("http");
 const { start } = require("repl");
 const {prefix, token} = require('./config.json');
 client.commands = new Discord.Collection();
+const autoUpdate = require("auto-git-update");
+const path = require("path");
+const updateConfig = {
+    repository: "https://github.com/MindChirp/shrokbot-canary",
+    tempLocation: path.dirname(__dirname),
+    executeOnComplete: path.join(__dirname, "restart.bat"),
+    exitOnComplete: true
+}
+
+
+async function updateCheckLoop() {
+    
+    var updater = new autoUpdate(updateConfig);
+    try {
+        await updater.autoUpdate();
+    } catch (error) {
+        console.log(error);
+    }
+    
+    setTimeout(()=>{
+        updateCheckLoop()
+    }, 60000)
+}
+
+updateCheckLoop();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -33,7 +58,15 @@ for (const file of commandFiles) {
 
 
 client.once("ready", () => {
-    console.log("Ready");
+    client.user.setPresence({
+        game:{
+            name: "your mama",
+            type: "Playing"
+        }
+    })
+    console.log("Ready! Running shrokbot version 1.0.7");
+
+    module.exports = { client };
 })
 
 client.login(token);
@@ -104,7 +137,7 @@ setInterval(()=>{
 		if(randomRickHour == 1){
 			console.log("The random rick hour has passed, it was : " + randomHour + ":" + randomMinute);
 		}else if(randomHour < 10 && randomMinute < 10){
-				console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + "0" + randomMinute);
+			    console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + "0" + randomMinute);
 			}else if(randomHour < 10){
 				console.log("The random rickroll is going to be executed at this timestamp: " + "0" + randomHour + ":" + randomMinute);
 			}else if(randomMinute < 10){
@@ -177,7 +210,7 @@ client.on("message", async message => {
     if(!message.guild) return;
 
 
-        if(message.content == "#donkey") {
+        if(message.content == "§donkey") {
             var voiceChannel = message.member.voice.channel;
             voiceChannel.join().then(connection => {
               const dispatcher = connection.play('donkey.mp3', {
